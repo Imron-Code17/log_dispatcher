@@ -17,13 +17,13 @@ import 'package:log_dispatcher/log_dispatcher.dart';
 
 void main() {
   // Initialize LogDispatcher with options
-  LogDispatcher.init(
+ LogDispatcher.init(
     options: LogDispatcherOptions(
       sendToTelegram: true,  // Set to false if you don't want to send logs to Telegram
       telegramBotToken: 'your-telegram-bot-token',
       telegramChatId: 'your-chat-id',
-      printOnly: false,  // Set to true to only print logs to console
       showStackTrace: true,  // Set to false if you don't want to include stack traces in logs
+      logType: LogType.printAndSendToChannel,  // Choose the type of log dispatching
     ),
   );
 
