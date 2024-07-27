@@ -1,21 +1,20 @@
 class LogDispatcherOptions {
   final bool sendToTelegram;
-  // final bool sendToDiscord;
   final String? telegramBotToken;
   final String? telegramChatId;
-  // final String? discordWebhookUrl;
   final bool showStackTrace;
   final LogType logType;
+  final String? appRole;
+  final String? environment;
 
-  LogDispatcherOptions({
-    this.sendToTelegram = false,
-    // this.sendToDiscord = false,
-    this.telegramBotToken,
-    this.telegramChatId,
-    // this.discordWebhookUrl,
-    this.showStackTrace = false,
-    this.logType = LogType.printAndSendToChannel,
-  });
+  LogDispatcherOptions(
+      {this.sendToTelegram = false,
+      this.telegramBotToken,
+      this.telegramChatId,
+      this.showStackTrace = false,
+      this.logType = LogType.printAndSendToChannel,
+      this.appRole,
+      this.environment});
 }
 
 late LogDispatcherOptions setupOptions;

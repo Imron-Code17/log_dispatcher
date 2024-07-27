@@ -8,7 +8,7 @@ class LogDispatcher {
     deviceType = getDeviceType;
     deviceId = await getDeviceId();
     FlutterError.onError = (FlutterErrorDetails details) {
-      LogDispacherExecuite.detail(details, setupOptions);
+      LogDispacherExecuite.detail(details, options);
     };
   }
 }

@@ -6,12 +6,12 @@ import 'package:log_dispatcher/log_dispatcher.dart';
 
 class ServiceRequest {
   static Future<void> sendToTelegram(String botToken, String chatId,
-      LogModel? logModel, bool isStackTraceShow) async {
+      LogModel? logModel, LogDispatcherOptions options) async {
     final url = 'https://api.telegram.org/bot$botToken/sendMessage';
 
     final payload = {
       'chat_id': chatId,
-      'text': _createPayload(logModel, isStackTraceShow),
+      'text': _createPayload(logModel, options),
       'parse_mode': 'MarkdownV2',
     };
 
@@ -42,13 +42,22 @@ class ServiceRequest {
     // Implementasi untuk Discord
   }
 
-  static String _createPayload(LogModel? logModel, bool isStackTraceShow) {
+  static String _createPayload(
+      LogModel? logModel, LogDispatcherOptions options) {
     final buffer = StringBuffer();
-    buffer.writeln('ERROR FROM ${logModel?.errorFrom}\n');
+    final environmentText = setupOptions.environment != null
+        ? '`[`${setupOptions.environment?.toUpperCase()}`]`'
+        : '';
+
+    buffer.writeln('$environmentText ${logModel?.errorFrom}`-`ERROR\n');
+
     buffer.writeln('`TIME`');
     buffer.writeln('```${logModel?.time}```');
     buffer.writeln('`DEVICE INFO`');
     buffer.writeln('````Type : ${logModel?.deviceType}');
+    if (setupOptions.appRole != null) {
+      buffer.writeln('Role : ${setupOptions.appRole}');
+    }
     buffer.writeln('Id   : ${logModel?.deviceId}````');
     buffer.writeln('`FILE PATH`');
     buffer.writeln('```${logModel?.filePath}```');
@@ -58,9 +67,7 @@ class ServiceRequest {
     buffer.writeln('```${logModel?.columnNumber}```');
     buffer.writeln('`EXCEPTION`');
     buffer.writeln('```${logModel?.exception}```');
-
-    // Add Stack Trace if isStackTraceShow is true
-    if (isStackTraceShow == true) {
+    if (options.showStackTrace == true) {
       buffer.writeln('`STACK TRACE`');
       buffer.writeln('```\n${logModel?.stackTrace}\n```');
     }

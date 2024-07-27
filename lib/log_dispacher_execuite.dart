@@ -37,17 +37,16 @@ class LogDispacherExecuite {
   static void handleLog(LogModel? logModel, LogDispatcherOptions options) {
     if (logModel == null) return;
 
-    bool shouldPrintLog = options.logType == LogType.printOnly ||
+    bool isPrintOnly = options.logType == LogType.printOnly;
+    bool isSendToChannelOnly = options.logType == LogType.sendToChannelOnly;
+    bool isPrintAndSendToChannel =
         options.logType == LogType.printAndSendToChannel;
 
-    bool shouldSendLog = options.logType == LogType.printAndSendToChannel ||
-        options.logType == LogType.sendToChannelOnly;
-
-    if (shouldPrintLog) {
+    if (isPrintOnly || isPrintAndSendToChannel) {
       _printLog(logModel, options.showStackTrace);
     }
 
-    if (shouldSendLog) {
+    if (isSendToChannelOnly || isPrintAndSendToChannel) {
       _sendLog(logModel, options);
     }
   }
@@ -56,6 +55,9 @@ class LogDispacherExecuite {
     _printLogInBox('Time', '${logModel.time}');
     _printLogInBox(
         'Device Info', '${logModel.deviceType} - ${logModel.deviceId}');
+    if (setupOptions.appRole != null) {
+      _printLogInBox('App Role', '${setupOptions.appRole}');
+    }
     _printLogInBox('File Path', '${logModel.filePath}');
     _printLogInBox('Line', '${logModel.lineNumber}');
     _printLogInBox('Column', '${logModel.columnNumber}');
@@ -75,7 +77,7 @@ class LogDispacherExecuite {
           options.telegramBotToken ?? '',
           options.telegramChatId ?? '',
           logModel,
-          options.showStackTrace == true,
+          options,
         );
       }
     }

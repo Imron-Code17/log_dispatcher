@@ -1,6 +1,6 @@
 name: log_dispatcher
 description: "A package for handling and dispatching error logs from Flutter applications and server requests."
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/Imron-Code17
 repository: https://github.com/Imron-Code17/log_dispatcher
 
