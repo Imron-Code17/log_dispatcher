@@ -17,9 +17,13 @@ class LogDispatcherInterceptors extends Interceptor {
       body: err.requestOptions.data != null
           ? jsonEncode(err.requestOptions.data)
           : 'N/A',
+      deviceId: deviceId,
+      deviceType: deviceType,
       stackTrace: err.stackTrace.toString(),
     );
-    if (setupOptions.sendToTelegram && setupOptions.printOnly == false) {
+    if (setupOptions.sendToTelegram &&
+            setupOptions.logType == LogType.sendToChannelOnly ||
+        setupOptions.logType == LogType.printAndSendToChannel) {
       _sendToTelegram(
           setupOptions.telegramBotToken ?? '',
           setupOptions.telegramChatId ?? '',
@@ -71,6 +75,9 @@ class LogDispatcherInterceptors extends Interceptor {
     }
     buffer.writeln('`TIME`');
     buffer.writeln('```${logModel?.time}```');
+    buffer.writeln('`DEVICE INFO`');
+    buffer.writeln('````Type : ${logModel?.deviceType}');
+    buffer.writeln('Id   : ${logModel?.deviceId}````');
     buffer.writeln('`METHOD`');
     buffer.writeln('```${logModel?.method}```');
     buffer.writeln('`ENDPOINT`');

@@ -4,8 +4,8 @@ class LogDispatcherOptions {
   final String? telegramBotToken;
   final String? telegramChatId;
   // final String? discordWebhookUrl;
-  final bool printOnly;
   final bool showStackTrace;
+  final LogType logType;
 
   LogDispatcherOptions({
     this.sendToTelegram = false,
@@ -13,9 +13,11 @@ class LogDispatcherOptions {
     this.telegramBotToken,
     this.telegramChatId,
     // this.discordWebhookUrl,
-    this.printOnly = false,
     this.showStackTrace = false,
+    this.logType = LogType.printAndSendToChannel,
   });
 }
 
 late LogDispatcherOptions setupOptions;
+
+enum LogType { printOnly, sendToChannelOnly, printAndSendToChannel }

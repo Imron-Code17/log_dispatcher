@@ -47,6 +47,9 @@ class ServiceRequest {
     buffer.writeln('ERROR FROM ${logModel?.errorFrom}\n');
     buffer.writeln('`TIME`');
     buffer.writeln('```${logModel?.time}```');
+    buffer.writeln('`DEVICE INFO`');
+    buffer.writeln('````Type : ${logModel?.deviceType}');
+    buffer.writeln('Id   : ${logModel?.deviceId}````');
     buffer.writeln('`FILE PATH`');
     buffer.writeln('```${logModel?.filePath}```');
     buffer.writeln('`LINE NUMBER`');
@@ -79,5 +82,22 @@ class ServiceRequest {
     if (kDebugMode) {
       print('$redColor$message$resetColor');
     }
+  }
+}
+
+String getDeviceLogoUrl(String? deviceType) {
+  switch (deviceType) {
+    case 'android':
+      return '🤖';
+    case 'ios':
+      return '🍎';
+    case 'linux':
+      return '🐧';
+    case 'macos':
+      return '🍏';
+    case 'windows':
+      return '🪟';
+    default:
+      return '';
   }
 }
